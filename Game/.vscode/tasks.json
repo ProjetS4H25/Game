@@ -1,0 +1,35 @@
+{
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "Build",
+			"command": "cl.exe",
+			"args": [
+				"/Z7",
+				"/EHsc",
+				"/nologo",
+				"main.cpp",
+				"/Fe${fileDirname}/build/program.exe",
+				"/link",
+				"shell32.lib",
+				"SDL2/lib/SDL2.lib",
+				"SDL2/lib/SDL2main.lib",
+				"SDL2/lib/SDL2_ttf.lib",
+				"SDL2/lib/SDL2_image.lib",
+				"/MACHINE:X64",
+				"/Subsystem:Windows"
+			],
+			"options": {
+				"cwd": "${fileDirname}"
+			},
+			"problemMatcher": [
+				"$msCompile"
+			],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	],
+	"version": "2.0.0"
+}

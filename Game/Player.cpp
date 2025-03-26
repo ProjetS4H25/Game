@@ -40,15 +40,15 @@ public:
       accelerationY = -ACCELERATION * 3;
 
     //movement
-    if (speedy + accelerationX * deltaTime <= MAXSPEED)
-      speedy += accelerationX * deltaTime;
-    else
-      speedy = MAXSPEED;
-
-    if (speedx + accelerationY * deltaTime <= MAXSPEED)
-      speedx += accelerationY * deltaTime;
+    if (speedx + accelerationX * deltaTime <= MAXSPEED)
+      speedx += accelerationX * deltaTime;
     else
       speedx = MAXSPEED;
+
+    if (speedy + accelerationY * deltaTime <= MAXSPEED)
+      speedy += accelerationY * deltaTime;
+    else
+      speedy = MAXSPEED;
 
     rx += speedx * deltaTime;
     ry += speedy * deltaTime;

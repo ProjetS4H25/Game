@@ -135,8 +135,8 @@ public:
   void addCar() {
     if (carsSize < MAXCARS) {
       Random::setRange(0, 3);
-      int x = 200 + camera + SDLib::getInstance().getWindowSize().h;
       int y = Random::getRandomNumber() * 60 + 60 + 15;
+      int x = 200 + camera + SDLib::getInstance().getWindowSize().w;
       Random::setRange(120, 250);
       double speed = double(Random::getRandomNumber());
       cars[carsSize] = new Bot(x, y);
@@ -154,7 +154,7 @@ public:
 
   void checkDeadCar() {
     for(iterator = 2; iterator < carsSize; iterator++) {
-      if (cars[iterator]->getMiddlePosition().y * -1 + camera + SDLib::getInstance().getWindowSize().h > SDLib::getInstance().getWindowSize().h + 10) {
+      if (cars[iterator]->getMiddlePosition().x - camera < 0) {
         removeCar(iterator);
         iterator--;
       }
@@ -183,8 +183,8 @@ public:
     checkDeadCar();
 
     //check end game
-    if (player1->getMiddlePosition().x - camera < 0 ||
-        player2->getMiddlePosition().x - camera < 0) {
+    if (player1->getMiddlePosition().x - camera < -10 ||
+        player2->getMiddlePosition().x - camera < -10) {
         SDLib::getInstance().kill();
     }
 
@@ -207,10 +207,10 @@ public:
     //camera
     int windowW = SDLib::getInstance().getWindowSize().w;
     if (player1->getRect().x - camera > 2*windowW/3 || player2->getRect().x - camera > 2*windowW/3) {
-      if (player1->getRect().x <= player2->getRect().x)
-        camera -= (player1->getRect().x - camera - 2*windowW/3);
+      if (player1->getRect().x >= player2->getRect().x)
+        camera += player1->getRect().x - camera - 2*windowW/3;
       else
-        camera -= (player2->getRect().x - camera - 2*windowW/3);
+        camera += player2->getRect().x - camera - 2*windowW/3;
     }
       
   }
@@ -220,19 +220,19 @@ public:
     SDLib::getInstance().getRenderer()->setDrawColor(0, 255, 0, 255);
     //grass
     for(iterator = 0; iterator < 13; iterator++) {
-      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 0 ,60, 60});
-      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 300 ,60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator) * 60 - (camera % 60), 0, 60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator) * 60 - (camera % 60), 300, 60, 60});
     }
     //road
     SDLib::getInstance().getRenderer()->setDrawColor(255, 0, 255, 255);
     for(iterator = 0; iterator < 13; iterator++) {
-      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 60 ,60, 60});
-      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 240 ,60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator) * 60 - (camera % 60), 60, 60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator) * 60 - (camera % 60), 240, 60, 60});
     }
     SDLib::getInstance().getRenderer()->setDrawColor(255, 0, 255, 255);
     for(iterator = 0; iterator < 13; iterator++) {
-      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 120 ,60, 60});
-      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 180 ,60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator) * 60 - (camera % 60), 120, 60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator) * 60 - (camera % 60), 180, 60, 60});
     }
 
     //draw NPCa

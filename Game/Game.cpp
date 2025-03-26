@@ -197,8 +197,7 @@ public:
         car2 = cars[iterator];
         if (car1->collisionDistance(car2->getMiddlePosition(), car2->getCollisionThreshold()));
           if(car1->colisionDetection(car2->getRect())) {
-            car1->collisionDetected(car2->getRect(), car2->getSpeedx());
-            car2->collisionDetected(car1->getRect(), car1->getSpeedx());
+            car1->collisionDetected(car2->getRect(), car2->getSpeedx(), car2);
             car1->moveFromCollision(car2->getRect());
           }
       }

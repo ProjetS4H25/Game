@@ -49,20 +49,20 @@ public:
       SDL_Rect front = {rect.x + rect.w - rect.w / 4, rect.y + rect.h / 8, rect.w / 4, rect.h - rect.h / 4};
       
       if (SDL_HasIntersection(&front, &rect2))
-          rect.x = rx = rect2.x - 2;
+          rect.x = rx = rect2.x - rect2.w - 2;
       else if (SDL_HasIntersection(&rear, &rect2))
-          rect.x = rx = rect2.x + rect.w + 2;
+          rect.x = rx = rect2.x + rect2.w + 2;
       else if (SDL_HasIntersection(&left, &rect2))
           rect.y = ry = rect2.y + rect2.h + 2;
       else if (SDL_HasIntersection(&right, &rect2))
-          rect.y = ry = rect2.y + 2;
+          rect.y = ry = rect2.y - rect2.h - 2;
     }
 
     bool colisionDetection(SDL_Rect& rect2) {
       return SDL_HasIntersection(&rect, &rect2);
       }
 
-    void collisionDetected(SDL_Rect& rect2, double speed2) {
+    void collisionDetected(SDL_Rect& rect2, double speed2, Car* car2) {
       SDL_Rect left = {rect.x + rect.w / 4, rect.y, rect.w / 2, rect.h / 8};
       SDL_Rect right = {rect.x + rect.w / 4, rect.y + rect.h - rect.w / 8, rect.w / 2, rect.h / 8};
       SDL_Rect rear = {rect.x, rect.y + rect.h / 8, rect.w / 4, rect.h - rect.h / 4};
@@ -70,12 +70,16 @@ public:
       
       if (SDL_HasIntersection(&front, &rect2)) {
           speedx = 0.80 * speed2;
+          car2->setSpeed(speed2 * 1.20, car2->getSpeedy());
       } else if (SDL_HasIntersection(&rear, &rect2)) {
           speedx = 1.20 * speedx;
+          car2->setSpeed(speedx * 0.8, car2->getSpeedy());
       } else if (SDL_HasIntersection(&left, &rect2)) {
           speedy = 90.0;
+          car2->setSpeed(speed2, -90.0);
       } else if (SDL_HasIntersection(&right, &rect2)) {
           speedy = -90.0;
+          car2->setSpeed(speed2, 90.0);
       }
     }
 

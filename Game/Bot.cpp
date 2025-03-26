@@ -15,13 +15,13 @@ public:
     rect.x = rx;
     rect.y = ry;
 
-    if (rect.x < 0) {
-      rect.x = rx = 0.0;
-      speedx = 0.0;
+    if (rect.y < 0) {
+      rect.y = ry = 0.0;
+      speedy = 0.0;
     }
-    else if (rect.x + rect.w > SDLib::getInstance().getWindowSize().w) {
-      rect.x = rx = SDLib::getInstance().getWindowSize().w - rect.w;
-      speedx = 0.0;
+    else if (rect.y + rect.h > SDLib::getInstance().getWindowSize().h) {
+      rect.y = ry = SDLib::getInstance().getWindowSize().h - rect.h;
+      speedy = 0.0;
     }
   }
 };

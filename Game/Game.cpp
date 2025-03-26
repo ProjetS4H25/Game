@@ -45,8 +45,8 @@ public:
 
       camera = 0;
       
-      player1 = new Player(75, 100);
-      player2 = new Player(255, 100);
+      player1 = new Player(100, 75);
+      player2 = new Player(100, 255);
       keyW = false;
       keyA = false;
       keyS = false;
@@ -135,12 +135,12 @@ public:
   void addCar() {
     if (carsSize < MAXCARS) {
       Random::setRange(0, 3);
-      int x = Random::getRandomNumber() * 60 + 60 + 15;
-      int y = 200 + camera + SDLib::getInstance().getWindowSize().h;
+      int x = 200 + camera + SDLib::getInstance().getWindowSize().h;
+      int y = Random::getRandomNumber() * 60 + 60 + 15;
       Random::setRange(120, 250);
       double speed = double(Random::getRandomNumber());
       cars[carsSize] = new Bot(x, y);
-      cars[carsSize]->setSpeed(0.0, speed);
+      cars[carsSize]->setSpeed(speed, 0.0);
       carsSize++;
     }
   }
@@ -175,16 +175,16 @@ public:
     for(iterator = 0; iterator < carsSize; iterator++) {
       cars[iterator]->update(deltaTime);
       //grass
-      if (cars[iterator]->getRect().x < 60 || cars[iterator]->getRect().x + cars[iterator]->getRect().w > 300) {
-        cars[iterator]->setSpeed(cars[iterator]->getSpeedx(), cars[iterator]->getSpeedy() - cars[iterator]->getSpeedy() * 0.75 * deltaTime);
+      if (cars[iterator]->getRect().y < 60 || cars[iterator]->getRect().y + cars[iterator]->getRect().h > 300) {
+        cars[iterator]->setSpeed(cars[iterator]->getSpeedx() - cars[iterator]->getSpeedx() * 0.75 * deltaTime, cars[iterator]->getSpeedy());
       }
     }
 
     checkDeadCar();
 
     //check end game
-    if (player1->getMiddlePosition().y * -1 + camera + SDLib::getInstance().getWindowSize().h > SDLib::getInstance().getWindowSize().h + 10 ||
-        player2->getMiddlePosition().y * -1 + camera + SDLib::getInstance().getWindowSize().h > SDLib::getInstance().getWindowSize().h + 10) {
+    if (player1->getMiddlePosition().x - camera < 0 ||
+        player2->getMiddlePosition().x - camera < 0) {
         SDLib::getInstance().kill();
     }
 
@@ -197,20 +197,20 @@ public:
         car2 = cars[iterator];
         if (car1->collisionDistance(car2->getMiddlePosition(), car2->getCollisionThreshold()));
           if(car1->colisionDetection(car2->getRect())) {
-            car1->collisionDetected(car2->getRect(), car2->getSpeedy());
-            car2->collisionDetected(car1->getRect(), car1->getSpeedy());
+            car1->collisionDetected(car2->getRect(), car2->getSpeedx());
+            car2->collisionDetected(car1->getRect(), car1->getSpeedx());
             car1->moveFromCollision(car2->getRect());
           }
       }
     }
 
     //camera
-    int windowH = SDLib::getInstance().getWindowSize().h;
-    if (windowH + camera - player1->getRect().y < windowH/3 || windowH + camera - player2->getRect().y < windowH/3) {
-      if (-player1->getRect().y <= -player2->getRect().y)
-        camera += -1 * (windowH + camera - player1->getRect().y - windowH/3);
+    int windowW = SDLib::getInstance().getWindowSize().w;
+    if (player1->getRect().x - camera > 2*windowW/3 || player2->getRect().x - camera > 2*windowW/3) {
+      if (player1->getRect().x <= player2->getRect().x)
+        camera -= (player1->getRect().x - camera - 2*windowW/3);
       else
-        camera += -1 * (windowH + camera - player2->getRect().y - windowH/3);
+        camera -= (player2->getRect().x - camera - 2*windowW/3);
     }
       
   }
@@ -220,33 +220,33 @@ public:
     SDLib::getInstance().getRenderer()->setDrawColor(0, 255, 0, 255);
     //grass
     for(iterator = 0; iterator < 13; iterator++) {
-      SDLib::getInstance().getRenderer()->drawSquare({0 ,(iterator - 2) * 60 + (camera % 60), 60, 60});
-      SDLib::getInstance().getRenderer()->drawSquare({300 ,(iterator - 2) * 60 + (camera % 60), 60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 0 ,60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 300 ,60, 60});
     }
     //road
     SDLib::getInstance().getRenderer()->setDrawColor(255, 0, 255, 255);
     for(iterator = 0; iterator < 13; iterator++) {
-      SDLib::getInstance().getRenderer()->drawSquare({60 ,(iterator - 2) * 60 + (camera % 60), 60, 60});
-      SDLib::getInstance().getRenderer()->drawSquare({240 ,(iterator - 2) * 60 + (camera % 60), 60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 60 ,60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 240 ,60, 60});
     }
     SDLib::getInstance().getRenderer()->setDrawColor(255, 0, 255, 255);
     for(iterator = 0; iterator < 13; iterator++) {
-      SDLib::getInstance().getRenderer()->drawSquare({120 ,(iterator - 2) * 60 + (camera % 60), 60, 60});
-      SDLib::getInstance().getRenderer()->drawSquare({180 ,(iterator - 2) * 60 + (camera % 60), 60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 120 ,60, 60});
+      SDLib::getInstance().getRenderer()->drawSquare({(iterator - 2) * 60 + (camera % 60), 180 ,60, 60});
     }
 
     //draw NPCa
     SDLib::getInstance().getRenderer()->setDrawColor(255, 255, 0, 255);
     for(iterator = 2; iterator < carsSize; iterator++)
-      cars[iterator]->drawOffset(SDLib::getInstance().getWindowSize().h + camera);
+      cars[iterator]->drawOffset(camera);
 
     //draw Player
     SDLib::getInstance().getRenderer()->setDrawColor(255, 0, 0, 255);
-    player1->drawOffset(SDLib::getInstance().getWindowSize().h + camera);
-    SDLib::getInstance().getRenderer()->drawText(*font, to_string(int(player1->getSpeedy())) + "km/h", 10, 60);
+    player1->drawOffset(camera);
+    SDLib::getInstance().getRenderer()->drawText(*font, to_string(int(player1->getSpeedx())) + "km/h", 10, 60);
     SDLib::getInstance().getRenderer()->setDrawColor(0, 0, 255, 255);
-    player2->drawOffset(SDLib::getInstance().getWindowSize().h + camera);
-    SDLib::getInstance().getRenderer()->drawText(*font, to_string(int(player2->getSpeedy())) + "km/h", 190, 60);
+    player2->drawOffset(camera);
+    SDLib::getInstance().getRenderer()->drawText(*font, to_string(int(player2->getSpeedx())) + "km/h", 190, 60);
 
     //debug
     if (debug) {

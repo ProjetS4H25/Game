@@ -2,7 +2,7 @@
 #include "SDLib/Component.cpp"
 
 #define MAXSPEED 360
-#define MAXACCELERATIONY 120
+#define MAXACCELERATIONX 120
 #define ACCELERATION 80.0
 
 class Car : public Component {
@@ -16,7 +16,7 @@ protected:
 
 public:
     Car(int x, int y) {
-      rect = {x, y, 30, 45};
+      rect = {x, y, 45, 30};
       rx = x;
       ry = y;
       speedx = 0.0;
@@ -107,6 +107,6 @@ public:
     }
 
     void drawOffset(int offset) {
-        SDLib::getInstance().getRenderer()->drawSquare({rect.x, offset - rect.y, rect.w, rect.h});
+        SDLib::getInstance().getRenderer()->drawSquare({rect.x - offset, rect.y, rect.w, rect.h});
     }
 };

@@ -54,7 +54,7 @@ public:
     if (carsSize < MAXCARS) {
       Random::setRange(0, 3);
       int y = Random::getRandomNumber() * 60 + 60 + 15;
-      int x = 200 + camera + SDLib::getInstance().getWindowSize().w;
+      int x = 200 + camera + WINDOWW;
       Random::setRange(120, 250);
       double speed = double(Random::getRandomNumber());
       cars[carsSize] = new Bot(x, y);
@@ -120,7 +120,7 @@ public:
     }
 
     //camera
-    int windowW = SDLib::getInstance().getWindowSize().w;
+    int windowW = WINDOWW;
     if (player1->getRect().x - camera > 2*windowW/3 || player2->getRect().x - camera > 2*windowW/3) {
       if (player1->getRect().x >= player2->getRect().x)
         camera += player1->getRect().x - camera - 2*windowW/3;

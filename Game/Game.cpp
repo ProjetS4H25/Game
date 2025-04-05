@@ -20,23 +20,22 @@ private:
   Car* cars[MAXCARS];
   char carsSize;
   Chrono carSpawnChrono;
-  bool debug;
 
   Font* font;
   int camera;
   int iterator;
 
   Player* player1;
-  bool keyW;
-  bool keyA;
-  bool keyS;
-  bool keyD;
+  // bool keyW;
+  // bool keyA;
+  // bool keyS;
+  // bool keyD;
   
   Player* player2;
-  bool keyUp;
-  bool keyDown;
-  bool keyRight;
-  bool keyLeft;
+  // bool keyUp;
+  // bool keyDown;
+  // bool keyRight;
+  // bool keyLeft;
 
 public:
   Game() {
@@ -47,15 +46,15 @@ public:
       
       player1 = new Player(100, 75);
       player2 = new Player(100, 255);
-      keyW = false;
-      keyA = false;
-      keyS = false;
-      keyD = false;
-      keyUp = false;
-      keyDown = false;
-      keyRight = false;
-      keyLeft = false;
-      debug = false;
+      // keyW = false;
+      // keyA = false;
+      // keyS = false;
+      // keyD = false;
+      // keyUp = false;
+      // keyDown = false;
+      // keyRight = false;
+      // keyLeft = false;
+      // debug = false;
 
       cars[0] = player1;
       cars[1] = player2;
@@ -64,72 +63,72 @@ public:
   }
 
   void handleEvent() {
-    switch(Event::getType()) {
-      case SDL_KEYDOWN:
-        switch (Event::getKey()) {
-          case SDLK_F1:
-            SDLib::getInstance().setShowFPS();
-            if(debug)
-              debug = false;
-            else
-              debug = true;
-            break;
-          case SDLK_w:
-            keyW = true;
-            break;
-          case SDLK_a:
-            keyA = true;
-            break;
-          case SDLK_s:
-            keyS = true;
-            break;
-          case SDLK_d:
-            keyD = true;
-            break;
-          case SDLK_UP:
-            keyUp = true;
-            break;
-          case SDLK_DOWN:
-            keyDown = true;
-            break;
-          case SDLK_LEFT:
-            keyLeft = true;
-            break;
-          case SDLK_RIGHT:
-            keyRight = true;
-            break;
-        }
-        break;
+    // switch(Event::getType()) {
+    //   case SDL_KEYDOWN:
+    //     switch (Event::getKey()) {
+    //       case SDLK_F1:
+    //         SDLib::getInstance().setShowFPS();
+    //         if(debug)
+    //           debug = false;
+    //         else
+    //           debug = true;
+    //         break;
+    //       case SDLK_w:
+    //         keyW = true;
+    //         break;
+    //       case SDLK_a:
+    //         keyA = true;
+    //         break;
+    //       case SDLK_s:
+    //         keyS = true;
+    //         break;
+    //       case SDLK_d:
+    //         keyD = true;
+    //         break;
+    //       case SDLK_UP:
+    //         keyUp = true;
+    //         break;
+    //       case SDLK_DOWN:
+    //         keyDown = true;
+    //         break;
+    //       case SDLK_LEFT:
+    //         keyLeft = true;
+    //         break;
+    //       case SDLK_RIGHT:
+    //         keyRight = true;
+    //         break;
+    //     }
+    //     break;
 
-      case SDL_KEYUP:
-        switch (Event::getKey()) {
-          case SDLK_w:
-            keyW = false;
-            break;
-          case SDLK_a:
-            keyA = false;
-            break;
-          case SDLK_s:
-            keyS = false;
-            break;
-          case SDLK_d:
-            keyD = false;
-            break;
-          case SDLK_UP:
-            keyUp = false;
-            break;
-          case SDLK_DOWN:
-            keyDown = false;
-            break;
-          case SDLK_LEFT:
-            keyLeft = false;
-            break;
-          case SDLK_RIGHT:
-            keyRight = false;
-            break;
-        }
-        break;
-    }
+    //   case SDL_KEYUP:
+    //     switch (Event::getKey()) {
+    //       case SDLK_w:
+    //         keyW = false;
+    //         break;
+    //       case SDLK_a:
+    //         keyA = false;
+    //         break;
+    //       case SDLK_s:
+    //         keyS = false;
+    //         break;
+    //       case SDLK_d:
+    //         keyD = false;
+    //         break;
+    //       case SDLK_UP:
+    //         keyUp = false;
+    //         break;
+    //       case SDLK_DOWN:
+    //         keyDown = false;
+    //         break;
+    //       case SDLK_LEFT:
+    //         keyLeft = false;
+    //         break;
+    //       case SDLK_RIGHT:
+    //         keyRight = false;
+    //         break;
+    //     }
+    //     break;
+    // }
   }
 
   void addCar() {
@@ -162,9 +161,10 @@ public:
   }
 
   void handleUpdate(double deltaTime) {
-    player1->input(keyW, keyS, keyD, keyA);
-    player2->input(keyUp, keyDown, keyRight, keyLeft);
-
+    // player1->input(keyW, keyS, keyD, keyA);
+    // player2->input(keyUp, keyDown, keyRight, keyLeft);
+    player1->bot(cars, carsSize);
+    player2->bot(cars, carsSize);
     if(carSpawnChrono.getDeltaTime() > SPAWNRATE) {
       Random::setRange(0, 1);
       if(Random::getRandomNumber() == 1)
@@ -246,21 +246,6 @@ public:
     SDLib::getInstance().getRenderer()->setDrawColor(0, 0, 255, 255);
     player2->drawOffset(camera);
     SDLib::getInstance().getRenderer()->drawText(*font, to_string(int(player2->getSpeedx())) + "km/h", 190, 60);
-
-    //debug
-    if (debug) {
-      SDLib::getInstance().getRenderer()->setDrawColor(255, 255, 255, 255);
-      for(int i = 0; i < carsSize; i++)
-        for(iterator = i + 1; iterator < carsSize; iterator++) {
-          SDL_Point car1 = cars[i]->getMiddlePosition();
-          SDL_Point car2 = cars[iterator]->getMiddlePosition();
-          car1.y *= -1;
-          car1.y += SDLib::getInstance().getWindowSize().h + camera + 45;
-          car2.y *= -1;
-          car2.y += SDLib::getInstance().getWindowSize().h + camera + 45;
-          SDLib::getInstance().getRenderer()->drawline(car1, car2);
-        }
-    }
 
     //title
     SDLib::getInstance().getRenderer()->drawText(*font, "Car Race", 180, 50, true);

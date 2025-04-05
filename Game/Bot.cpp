@@ -1,5 +1,7 @@
 #pragma once
 #include "Car.cpp"
+#define WINDOWW 640
+#define WINDOWH 360
 
 class Bot : public Car {
 private:
@@ -15,13 +17,13 @@ public:
     rect.x = rx;
     rect.y = ry;
 
-    if (rect.x < 0) {
-      rect.x = rx = 0.0;
-      speedx = 0.0;
+    if (rect.y < 0) {
+      rect.y = ry = 0.0;
+      speedy = 0.0;
     }
-    else if (rect.x + rect.w > SDLib::getInstance().getWindowSize().w) {
-      rect.x = rx = SDLib::getInstance().getWindowSize().w - rect.w;
-      speedx = 0.0;
+    else if (rect.y + rect.h > WINDOWH) {
+      rect.y = ry = WINDOWH - rect.h;
+      speedy = 0.0;
     }
   }
 };

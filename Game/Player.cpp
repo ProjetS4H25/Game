@@ -1,5 +1,7 @@
 #pragma once
 #include "Car.cpp"
+#define WINDOWW 640
+#define WINDOWH 360
 
 class Player : public Car {
 private:
@@ -10,7 +12,10 @@ private:
 
 public:
   Player(int x, int y) : Car(x, y) {
-
+    up = true;
+    down = false;
+    right = false;
+    left = false;
   }
 
   void input(bool up, bool down, bool right, bool left) {
@@ -20,48 +25,77 @@ public:
     this->left = left;
   }
 
+  void bot(Car* cars[], char size) {
+    char line = 0;
+    char index = 2;
+    for (int i = 2; i < size; i++) {
+      if(cars[i]->getMiddlePosition().x != getMiddlePosition().x && cars[i]->getMiddlePosition().y != getMiddlePosition().y) {
+        if(cars[i]->getMiddlePosition().y - getMiddlePosition().y <= cars[index]->getMiddlePosition().y - getMiddlePosition().y)
+          index = i;
+      }
+    }
+    if(size > 2) {
+      bool decision = false;
+      int deltaY = cars[index]->getMiddlePosition().y - getMiddlePosition().y;
+      if(rect.y < 60) {
+        input(true, false, true, false);
+        decision = true;
+      }
+      else if(rect.y + rect.h > 300) {
+        input(true, false, false, true);
+        decision = true;
+      }
+      if(!decision && abs(deltaY < 30)) {
+        if(rect.y < WINDOWH/2)
+          input(true, false, true, false);
+        else
+          input(true, false, false, true);
+      }
+    }
+  }
+
   void update(double deltaTime) {
     //input modif
     if ((up && down) || (!up && !down))
-      accelerationY = 0.0;
+      accelerationX = 0.0;
     else if (up) {
-      if (accelerationY + ACCELERATION * deltaTime <= MAXACCELERATIONY)
-        accelerationY += ACCELERATION * deltaTime;
+      if (accelerationX + ACCELERATION * deltaTime <= MAXACCELERATIONX)
+        accelerationX += ACCELERATION * deltaTime;
       else
-        accelerationY = MAXACCELERATIONY;
+        accelerationX = MAXACCELERATIONX;
     }
     else if (down)
-      accelerationY = -ACCELERATION * 2;
+      accelerationX = -ACCELERATION * 2;
     if ((right && left) || (!right && !left))
-      accelerationX = 0.0;
+      accelerationY = 0.0;
     else if (right)
-      accelerationX = ACCELERATION * 3;
+      accelerationY = ACCELERATION * 3;
     else if (left)
-      accelerationX = -ACCELERATION * 3;
+      accelerationY = -ACCELERATION * 3;
 
     //movement
-    if (speedy + accelerationY * deltaTime <= MAXSPEED)
-      speedy += accelerationY * deltaTime;
-    else
-      speedy = MAXSPEED;
-
     if (speedx + accelerationX * deltaTime <= MAXSPEED)
       speedx += accelerationX * deltaTime;
     else
       speedx = MAXSPEED;
+
+    if (speedy + accelerationY * deltaTime <= MAXSPEED)
+      speedy += accelerationY * deltaTime;
+    else
+      speedy = MAXSPEED;
 
     rx += speedx * deltaTime;
     ry += speedy * deltaTime;
     rect.x = rx;
     rect.y = ry;
 
-    if (rect.x < 0) {
-      rect.x = rx = 0.0;
-      speedx = 0.0;
+    if (rect.y < 0) {
+      rect.y = ry = 0.0;
+      speedy = 0.0;
     }
-    else if (rect.x + rect.w > SDLib::getInstance().getWindowSize().w) {
-      rect.x = rx = SDLib::getInstance().getWindowSize().w - rect.w;
-      speedx = 0.0;
+    else if (rect.y + rect.h > WINDOWH) {
+      rect.y = ry = WINDOWH - rect.h;
+      speedy = 0.0;
     }
   } 
 };

@@ -11,6 +11,7 @@
 
 #include "Player.cpp"
 #include "Bot.cpp"
+#include "Car.h"
 
 #define MAXCARS 12
 #define SPAWNRATE 0.5

@@ -1,8 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include "Rect.h"
+
 #define CARW 45
 #define CARH 30
+#define WINDOWW 640
+#define WINDOWH 360
 
 struct Car {
   int i;
@@ -12,6 +15,10 @@ struct Car {
   double accelerationY;
   double accelerationX;
   double rx, ry;
+  bool up;
+  bool down;
+  bool right;
+  bool left;
 };
 
 struct Car Car(int x, int y) {
@@ -83,7 +90,7 @@ void updatePlayer(double deltaTime) {
 
 }
 
-void updateBot(struct Car *car, double deltatime) {
+void updateBot(struct Car *car, double deltaTime) {
   car->rx += car->speedx * deltaTime;
   car->ry += car->speedy * deltaTime;
   car->rect.x = car->rx;
@@ -96,5 +103,34 @@ void updateBot(struct Car *car, double deltatime) {
   else if (car->rect.x + car->rect.w > WINDOWW) {
     car->rect.x = car->rx = WINDOWW - car->rect.w;
     car->speedx = 0.0;
+  }
+}
+
+void autoPilot(struct Car car, struct Car cars[], char size) {
+  char line = 0;
+  char index = 2;
+  for (int i = 2; i < size; i++) {
+    if(getMiddlePosition(cars[i]).x != getMiddlePosition(car).x && getMiddlePosition(cars[i]).y != getMiddlePosition(car).y) {
+      if(getMiddlePosition(cars[i]).y - getMiddlePosition(car).y <= getMiddlePosition(cars[index]).y - getMiddlePosition(car).y)
+        index = i;
+    }
+  }
+  if(size > 2) {
+    bool decision = false;
+    int deltaY = getMiddlePosition(cars[index]).y - getMiddlePosition(car).y;
+    if(car.rect.y < 60) {
+      input(true, false, true, false);
+      decision = true;
+    }
+    else if(rect.y + rect.h > 300) {
+      input(true, false, false, true);
+      decision = true;
+    }
+    if(!decision && abs(deltaY < 30)) {
+      if(rect.y < WINDOWH/2)
+        input(true, false, true, false);
+      else
+        input(true, false, false, true);
+    }
   }
 }

@@ -12,6 +12,7 @@
 		"xiosbase": "cpp",
 		"string": "cpp",
 		"deque": "cpp",
-		"cstdlib": "cpp"
+		"cstdlib": "cpp",
+		"iostream": "cpp"
 	},
 }

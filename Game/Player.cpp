@@ -1,5 +1,7 @@
 #pragma once
 #include "Car.cpp"
+#define WINDOWW 640
+#define WINDOWH 360
 
 class Player : public Car {
 private:
@@ -44,7 +46,7 @@ public:
         decision = true;
       }
       if(!decision && abs(deltaY < 30)) {
-        if(rect.y < SDLib::getInstance().getWindowSize().h/2)
+        if(rect.y < WINDOWH/2)
           input(true, false, true, false);
         else
           input(true, false, false, true);
@@ -91,8 +93,8 @@ public:
       rect.y = ry = 0.0;
       speedy = 0.0;
     }
-    else if (rect.y + rect.h > SDLib::getInstance().getWindowSize().h) {
-      rect.y = ry = SDLib::getInstance().getWindowSize().h - rect.h;
+    else if (rect.y + rect.h > WINDOWH) {
+      rect.y = ry = WINDOWH - rect.h;
       speedy = 0.0;
     }
   } 

@@ -14,6 +14,8 @@
 
 #define MAXCARS 12
 #define SPAWNRATE 0.5
+#define WINDOWW 640
+#define WINDOWH 360
 
 class Game : public App {
 private:
@@ -26,16 +28,7 @@ private:
   int iterator;
 
   Player* player1;
-  // bool keyW;
-  // bool keyA;
-  // bool keyS;
-  // bool keyD;
-  
   Player* player2;
-  // bool keyUp;
-  // bool keyDown;
-  // bool keyRight;
-  // bool keyLeft;
 
 public:
   Game() {
@@ -46,15 +39,6 @@ public:
       
       player1 = new Player(100, 75);
       player2 = new Player(100, 255);
-      // keyW = false;
-      // keyA = false;
-      // keyS = false;
-      // keyD = false;
-      // keyUp = false;
-      // keyDown = false;
-      // keyRight = false;
-      // keyLeft = false;
-      // debug = false;
 
       cars[0] = player1;
       cars[1] = player2;
@@ -63,72 +47,7 @@ public:
   }
 
   void handleEvent() {
-    // switch(Event::getType()) {
-    //   case SDL_KEYDOWN:
-    //     switch (Event::getKey()) {
-    //       case SDLK_F1:
-    //         SDLib::getInstance().setShowFPS();
-    //         if(debug)
-    //           debug = false;
-    //         else
-    //           debug = true;
-    //         break;
-    //       case SDLK_w:
-    //         keyW = true;
-    //         break;
-    //       case SDLK_a:
-    //         keyA = true;
-    //         break;
-    //       case SDLK_s:
-    //         keyS = true;
-    //         break;
-    //       case SDLK_d:
-    //         keyD = true;
-    //         break;
-    //       case SDLK_UP:
-    //         keyUp = true;
-    //         break;
-    //       case SDLK_DOWN:
-    //         keyDown = true;
-    //         break;
-    //       case SDLK_LEFT:
-    //         keyLeft = true;
-    //         break;
-    //       case SDLK_RIGHT:
-    //         keyRight = true;
-    //         break;
-    //     }
-    //     break;
-
-    //   case SDL_KEYUP:
-    //     switch (Event::getKey()) {
-    //       case SDLK_w:
-    //         keyW = false;
-    //         break;
-    //       case SDLK_a:
-    //         keyA = false;
-    //         break;
-    //       case SDLK_s:
-    //         keyS = false;
-    //         break;
-    //       case SDLK_d:
-    //         keyD = false;
-    //         break;
-    //       case SDLK_UP:
-    //         keyUp = false;
-    //         break;
-    //       case SDLK_DOWN:
-    //         keyDown = false;
-    //         break;
-    //       case SDLK_LEFT:
-    //         keyLeft = false;
-    //         break;
-    //       case SDLK_RIGHT:
-    //         keyRight = false;
-    //         break;
-    //     }
-    //     break;
-    // }
+    
   }
 
   void addCar() {
@@ -161,8 +80,6 @@ public:
   }
 
   void handleUpdate(double deltaTime) {
-    // player1->input(keyW, keyS, keyD, keyA);
-    // player2->input(keyUp, keyDown, keyRight, keyLeft);
     player1->bot(cars, carsSize);
     player2->bot(cars, carsSize);
     if(carSpawnChrono.getDeltaTime() > SPAWNRATE) {
@@ -174,7 +91,6 @@ public:
 
     for(iterator = 0; iterator < carsSize; iterator++) {
       cars[iterator]->update(deltaTime);
-      //grass
       if (cars[iterator]->getRect().y < 60 || cars[iterator]->getRect().y + cars[iterator]->getRect().h > 300) {
         cars[iterator]->setSpeed(cars[iterator]->getSpeedx() - cars[iterator]->getSpeedx() * 0.75 * deltaTime, cars[iterator]->getSpeedy());
       }

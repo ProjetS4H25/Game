@@ -81,11 +81,11 @@ public:
       SDLib::getInstance().getRenderer()->drawSquare({(game->iterator) * 60 - (game->camera % 60), 240, 60, 60});
     }
 
-    // //draw NPCa
-    // SDLib::getInstance().getRenderer()->setDrawColor(255, 255, 0, 255);
-    // for(game->iterator = 2; iterator < carsSize; game->iterator++)
-    //   game->cars[game->iterator]->drawOffset(game->camera);
-
+    //draw NPCa
+    SDLib::getInstance().getRenderer()->setDrawColor(255, 255, 0, 255);
+    for(game->iterator = 2; game->iterator <= game->carsSize - 1; game->iterator++)
+      SDLib::getInstance().getRenderer()->drawSquare({game->cars[game->iterator]->rect.x - game->camera, game->cars[game->iterator]->rect.y, game->cars[game->iterator]->rect.w, game->cars[game->iterator]->rect.h});
+    
     //draw Player
     SDLib::getInstance().getRenderer()->setDrawColor(255, 0, 0, 255);
     SDLib::getInstance().getRenderer()->drawSquare({game->player1->rect.x - game->camera, game->player1->rect.y, game->player1->rect.w, game->player1->rect.h});

@@ -6,8 +6,8 @@
 #define CARH 30
 #define WINDOWW 640
 #define WINDOWH 360
-#define ACCELERATION 35
-#define MAXACCELERATIONX 100
+#define ACCELERATION 80
+#define MAXACCELERATIONX 200
 #define MAXSPEED 360
 
 struct Car {
@@ -140,13 +140,13 @@ void updateBot(struct Car *car, double deltaTime) {
   car->rect.x = car->rx;
   car->rect.y = car->ry;
 
-  if (car->rect.x < 0) {
-    car->rect.x = car->rx = 0.0;
-    car->speedx = 0.0;
+  if (car->rect.y < 0) {
+    car->rect.y = car->ry = 0.0;
+    car->speedy = 0.0;
   }
-  else if (car->rect.x + car->rect.w > WINDOWW) {
-    car->rect.x = car->rx = WINDOWW - car->rect.w;
-    car->speedx = 0.0;
+  else if (car->rect.y + car->rect.h > WINDOWH) {
+    car->rect.y = car->ry = WINDOWH - car->rect.h;
+    car->speedy = 0.0;
   }
 }
 

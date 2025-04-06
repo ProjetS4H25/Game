@@ -108,11 +108,11 @@ bool handleUpdateGame(struct Game* game, double deltaTime) {
   //     addCar();
   //   carSpawnChrono.reset();
   // }
-
+  addCar(game, game->cars);
   updatePlayer(game->player1, deltaTime);
   updatePlayer(game->player2, deltaTime);
 
-  for(game->iterator = 0; game->iterator < game->carsSize; game->iterator++) {
+  for(game->iterator = 2; game->iterator < game->carsSize; game->iterator++) {
     updateBot(game->cars[game->iterator], deltaTime);
     if (game->cars[game->iterator]->rect.y < 60 || game->cars[game->iterator]->rect.y + game->cars[game->iterator]->rect.h > 300) {
       game->cars[game->iterator]->speedx = game->cars[game->iterator]->speedx - game->cars[game->iterator]->speedx * 0.75 * deltaTime;

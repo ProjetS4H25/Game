@@ -4,19 +4,16 @@
 #include "Car.c"
 
 struct Car;
-struct Car Car(int x, int y);
-struct Rect getRect();
+struct Car createCar(int x, int y);
 struct Rect getMiddlePosition(struct Car car);
 int getCollisionThreshold();
-bool collisionDistance(struct Rect point2, int collisionThreshold2); 
-void moveFromCollision(struct Rect rect2);
-bool colisionDetection(struct Rect rect2);
-void collisionDetected(struct Rect rect2, double speed2);
-void update(double deltaTime);
-void setSpeed(double speedx, double speedy); 
-double getSpeedx(); 
-double getSpeedy(); 
-void setAccelerationY(double accelerationY); 
-double getAccelerationY();
+bool collisionDistance(struct Car car1, struct Car car2, int collisionThreshold2);
+void moveFromCollision(struct Car* car1, struct Car* car2);
+bool intersection(struct Rect A, struct Rect B);
+void collisionDetected(struct Car *car1, struct Car *car2);
+void updatePlayer(struct Car* car, double deltaTime);
+void updateBot(struct Car* car, double deltaTime);
+void autoPilot(struct Car* car, struct Car cars[], char size);
+void input(struct Car* car, bool up, bool down, bool right, bool left);
 
 #endif

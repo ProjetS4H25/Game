@@ -4,6 +4,6 @@
 #include "Rect.c"
 
 struct Rect;
-struct Rect Rect(int x, int y, int w, int h);
+struct Rect createRect(int x, int y, int w, int h);
 
 #endif

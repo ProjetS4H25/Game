@@ -12,6 +12,18 @@
 		"xiosbase": "cpp",
 		"string": "cpp",
 		"deque": "cpp",
-		"car.c": "cpp"
+		"car.c": "cpp",
+		"ios": "cpp",
+		"chrono.cpp": "c",
+		"chrono": "c",
+		"iterator": "c",
+		"memory": "c",
+		"vector": "c",
+		"format": "c",
+		"forward_list": "c",
+		"initializer_list": "c",
+		"map": "c",
+		"xstring": "c",
+		"xutility": "c"
 	},
 }

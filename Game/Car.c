@@ -50,42 +50,46 @@ bool collisionDistance(struct Car car1, struct Car car2, int collisionThreshold2
 }
 
 bool intersection(struct Rect A, struct Rect B) {
-  if ((A.x + A.w <= B.x) || (B.x + B.w <= A.x) ||
-      (A.y + A.h <= B.y) || (B.y + B.h <= A.y)) {
-      return false;
+  if(A.x >= B.x && A.x <= B.x + B.w || A.x + A.w >= B.x && A.x + A.w <= B.x + B.w) {
+    if(A.y >= B.y && A.y <= B.y + B.h || A.y + A.h >= B.y && A.y + A.h <= B.y + B.h) {
+      return true;
+    }
   }
-  return true;
+  return false;
 }
 
 void moveFromCollision(struct Car* car1, struct Car* car2) {
-  struct Rect left = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y, car1->rect.w / 2, car1->rect.h / 8);
-  struct Rect right = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y + car1->rect.h - car1->rect.w / 8, car1->rect.w / 2, car1->rect.h / 8);
-  struct Rect rear = createRect(car1->rect.x, car1->rect.y + car1->rect.h / 8, car1->rect.w / 4, car1->rect.h - car1->rect.h / 4);
-  struct Rect front = createRect(car1->rect.x + car1->rect.w - car1->rect.w / 4, car1->rect.y + car1->rect.h / 8, car1->rect.w / 4, car1->rect.h - car1->rect.h / 4);
-
+  struct Rect left = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y, car1->rect.w / 2, car1->rect.h / 4);
+  struct Rect right = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y + car1->rect.h - car1->rect.w / 6, car1->rect.w / 2, car1->rect.h / 4);
+  struct Rect rear = createRect(car1->rect.x, car1->rect.y + car1->rect.h / 4, car1->rect.w / 4, car1->rect.h - car1->rect.h / 2);
+  struct Rect front = createRect(car1->rect.x + car1->rect.w - car1->rect.w / 4, car1->rect.y + car1->rect.h / 4, car1->rect.w / 4, car1->rect.h - car1->rect.h / 2);
+    
   if (intersection(front, car2->rect))
     car1->rect.x = car1->rx = car2->rect.x - 2 - car1->rect.w;
-  else if (intersection(rear, car2->rect))
+  if (intersection(rear, car2->rect))
     car1->rect.x = car1->rx = car2->rect.x + car2->rect.w + 2;
-  else if (intersection(left, car2->rect))
+  if (intersection(left, car2->rect))
     car1->rect.y = car1->ry = car2->rect.y + car1->rect.h + 2;
-  else if (intersection(right, car2->rect))
+  if (intersection(right, car2->rect))
     car1->rect.y = car1->ry = car2->rect.y - 2 - car1->rect.h;
 }
 
 void collisionDetected(struct Car *car1, struct Car *car2) {
-  struct Rect left = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y, car1->rect.w / 2, car1->rect.h / 8);
-  struct Rect right = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y + car1->rect.h - car1->rect.w / 8, car1->rect.w / 2, car1->rect.h / 8);
-  struct Rect rear = createRect(car1->rect.x, car1->rect.y + car1->rect.h / 8, car1->rect.w / 4, car1->rect.h - car1->rect.h / 4);
-  struct Rect front = createRect(car1->rect.x + car1->rect.w - car1->rect.w / 4, car1->rect.y + car1->rect.h / 8, car1->rect.w / 4, car1->rect.h - car1->rect.h / 4);
+  struct Rect left = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y, car1->rect.w / 2, car1->rect.h / 4);
+  struct Rect right = createRect(car1->rect.x + car1->rect.w / 4, car1->rect.y + car1->rect.h - car1->rect.w / 6, car1->rect.w / 2, car1->rect.h / 4);
+  struct Rect rear = createRect(car1->rect.x, car1->rect.y + car1->rect.h / 4, car1->rect.w / 4, car1->rect.h - car1->rect.h / 2);
+  struct Rect front = createRect(car1->rect.x + car1->rect.w - car1->rect.w / 4, car1->rect.y + car1->rect.h / 4, car1->rect.w / 4, car1->rect.h - car1->rect.h / 2);
   
   if (intersection(front, car2->rect)) {
       car1->speedy = 0.80 * car2->speedx;
-  } else if (intersection(rear, car2->rect)) {
+  } 
+  if (intersection(rear, car2->rect)) {
       car1->speedy = 1.20 * car1->speedy;
-  } else if (intersection(left, car2->rect)) {
+  } 
+  if (intersection(left, car2->rect)) {
       car1->speedx = 90.0;
-  } else if (intersection(right, car2->rect)) {
+  } 
+  if (intersection(right, car2->rect)) {
       car1->speedx = -90.0;
   }
 }

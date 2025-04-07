@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdbool.h>
 #include "Rect.h"
 
@@ -6,9 +7,9 @@
 #define CARH 30
 #define WINDOWW 640
 #define WINDOWH 360
-#define ACCELERATION 80
-#define MAXACCELERATIONX 200
-#define MAXSPEED 360
+#define ACCELERATION 60
+#define MAXACCELERATIONX 100
+#define MAXSPEED 365
 
 struct Car {
   struct Rect rect;

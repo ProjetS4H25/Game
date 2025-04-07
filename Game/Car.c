@@ -39,7 +39,7 @@ struct Rect getMiddlePosition(struct Car car) {
 }
 
 int getCollisionThreshold() {
-  return CARW * 2 / 3;
+  return 100;
 }
 
 bool collisionDistance(struct Car car1, struct Car car2, int collisionThreshold2) {
@@ -66,11 +66,11 @@ void moveFromCollision(struct Car* car1, struct Car* car2) {
     
   if (intersection(front, car2->rect))
     car1->rect.x = car1->rx = car2->rect.x - 2 - car1->rect.w;
-  if (intersection(rear, car2->rect))
+  else if (intersection(rear, car2->rect))
     car1->rect.x = car1->rx = car2->rect.x + car2->rect.w + 2;
-  if (intersection(left, car2->rect))
-    car1->rect.y = car1->ry = car2->rect.y + car1->rect.h + 2;
-  if (intersection(right, car2->rect))
+  else if (intersection(left, car2->rect))
+    car1->rect.y = car1->ry = car2->rect.y + car2->rect.h + 2;
+  else if (intersection(right, car2->rect))
     car1->rect.y = car1->ry = car2->rect.y - 2 - car1->rect.h;
 }
 
@@ -81,16 +81,20 @@ void collisionDetected(struct Car *car1, struct Car *car2) {
   struct Rect front = createRect(car1->rect.x + car1->rect.w - car1->rect.w / 4, car1->rect.y + car1->rect.h / 4, car1->rect.w / 4, car1->rect.h - car1->rect.h / 2);
   
   if (intersection(front, car2->rect)) {
-      car1->speedy = 0.80 * car2->speedx;
+      car1->speedx = 0.80 * car2->speedx;
+      car2->speedx = 1.20 * car2->speedx;
   } 
-  if (intersection(rear, car2->rect)) {
-      car1->speedy = 1.20 * car1->speedy;
+  else if (intersection(rear, car2->rect)) {
+      car1->speedx = 1.20 * car1->speedx;
+      car2->speedx = 0.80 * car1->speedx;
   } 
-  if (intersection(left, car2->rect)) {
-      car1->speedx = 90.0;
+  else if (intersection(left, car2->rect)) {
+      car1->speedy = 90.0;
+      car2->speedy = -90.0;
   } 
-  if (intersection(right, car2->rect)) {
-      car1->speedx = -90.0;
+  else if (intersection(right, car2->rect)) {
+      car1->speedy = -90.0;
+      car2->speedy = 90.0;
   }
 }
 

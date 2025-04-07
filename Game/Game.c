@@ -1,4 +1,4 @@
-#define MAXCARS 3
+#define MAXCARS 8
 #define SPAWNRATE 0.5
 #define WINDOWW 640
 #define WINDOWH 360
@@ -137,11 +137,10 @@ bool handleUpdateGame(struct Game* game, double deltaTime) {
     for(game->iterator = i + 1; game->iterator < game->carsSize; game->iterator++) {
       car1 = game->cars[i];
       car2 = game->cars[game->iterator];
-      if (collisionDistance(*car1, *car2, getCollisionThreshold()))
-        if(intersection(car1->rect, car2->rect)) {
-          collisionDetected(car1, car2);
-          moveFromCollision(car1, car2);
-        }
+      if(intersection(car1->rect, car2->rect)) {
+        collisionDetected(car1, car2);
+        moveFromCollision(car1, car2);
+      }
     }
   }
 

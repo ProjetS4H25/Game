@@ -5,13 +5,14 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
 #include "Car.h"
+#include "Random.h"
 
 struct Game {
   struct Car* cars[MAXCARS];
   char carsSize;
+  struct Random random;
 
   int camera;
   int iterator;
@@ -58,16 +59,16 @@ struct Game createGame() {
   game.iterator = 0;
   game.end = 0;
 
-  srand(time(NULL));
+  intialise(&game.random);
 
   return game;
 }
 
 void addCar(struct Game *game) {
   if (game->carsSize < MAXCARS) {
-    int y = (rand() % 4) * 60 + 60 + 15;
+    int y = (getRandom(&game->random) % 4) * 60 + 60 + 15;
     int x = 200 + game->camera + WINDOWW;
-    double speed = (rand() % 130) + 120;
+    double speed = (getRandom(&game->random) % 130) + 120;
     struct Car* car = (struct Car*)malloc(sizeof(struct Car));
     car->rect.x = car->rx = x;
     car->rect.y = car->ry = y;

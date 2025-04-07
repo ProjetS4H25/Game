@@ -38,17 +38,6 @@ struct Rect getMiddlePosition(struct Car car) {
   return createRect(car.rect.x + car.rect.w / 2, car.rect.y + car.rect.h / 2, 0, 0);
 }
 
-int getCollisionThreshold() {
-  return 100;
-}
-
-bool collisionDistance(struct Car car1, struct Car car2, int collisionThreshold2) {
-  struct Rect mid1 = getMiddlePosition(car1);
-  struct Rect mid2 = getMiddlePosition(car2);
-  int distance = (mid1.x - mid2.x) * (mid1.x - mid2.x) + (mid1.y - mid2.y) * (mid1.y - mid2.y);
-  return distance < getCollisionThreshold() || distance < collisionThreshold2;
-}
-
 bool intersection(struct Rect A, struct Rect B) {
   if(A.x >= B.x && A.x <= B.x + B.w || A.x + A.w >= B.x && A.x + A.w <= B.x + B.w) {
     if(A.y >= B.y && A.y <= B.y + B.h || A.y + A.h >= B.y && A.y + A.h <= B.y + B.h) {

@@ -53,7 +53,7 @@ public:
     game->iterator = 0;
     game->end = false;
 
-    srand(NULL);
+    intialise(&game->random);
   }
 
   void handleEvent() {

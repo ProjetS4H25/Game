@@ -6,8 +6,6 @@
 struct Car;
 struct Car createCar(int x, int y);
 struct Rect getMiddlePosition(struct Car car);
-int getCollisionThreshold();
-bool collisionDistance(struct Car car1, struct Car car2, int collisionThreshold2);
 void moveFromCollision(struct Car* car1, struct Car* car2);
 bool intersection(struct Rect A, struct Rect B);
 void collisionDetected(struct Car *car1, struct Car *car2);

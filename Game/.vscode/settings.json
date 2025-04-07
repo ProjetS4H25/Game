@@ -24,6 +24,7 @@
 		"initializer_list": "c",
 		"map": "c",
 		"xstring": "c",
-		"xutility": "c"
+		"xutility": "c",
+		"game.c": "cpp"
 	},
 }

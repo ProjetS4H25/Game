@@ -1,10 +1,11 @@
-#define MAXCARS 12
+#define MAXCARS 3
 #define SPAWNRATE 0.5
 #define WINDOWW 640
 #define WINDOWH 360
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #include "Car.h"
 
@@ -62,7 +63,7 @@ struct Game createGame() {
   return game;
 }
 
-void addCar(struct Game *game, struct Car* cars[]) {
+void addCar(struct Game *game) {
   if (game->carsSize < MAXCARS) {
     int y = (rand() % 4) * 60 + 60 + 15;
     int x = 200 + game->camera + WINDOWW;
@@ -78,7 +79,7 @@ void addCar(struct Game *game, struct Car* cars[]) {
     car->left = false;
     car->right = false;
     car->down = false;
-    cars[game->carsSize] = car;
+    game->cars[game->carsSize] = car;
     game->carsSize++;
   }
 }
@@ -108,12 +109,14 @@ bool handleUpdateGame(struct Game* game, double deltaTime) {
   //     addCar();
   //   carSpawnChrono.reset();
   // }
-  addCar(game, game->cars);
+  addCar(game);
   updatePlayer(game->player1, deltaTime);
   updatePlayer(game->player2, deltaTime);
 
-  for(game->iterator = 2; game->iterator < game->carsSize; game->iterator++) {
-    updateBot(game->cars[game->iterator], deltaTime);
+  for(game->iterator = 0; game->iterator < game->carsSize; game->iterator++) {
+    if (game->iterator >= 2)
+      updateBot(game->cars[game->iterator], deltaTime);
+    //gazon
     if (game->cars[game->iterator]->rect.y < 60 || game->cars[game->iterator]->rect.y + game->cars[game->iterator]->rect.h > 300) {
       game->cars[game->iterator]->speedx = game->cars[game->iterator]->speedx - game->cars[game->iterator]->speedx * 0.75 * deltaTime;
     }

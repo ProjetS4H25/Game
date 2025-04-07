@@ -92,6 +92,20 @@ public:
     SDLib::getInstance().getRenderer()->setDrawColor(0, 0, 255, 255);
     SDLib::getInstance().getRenderer()->drawSquare({game->player2->rect.x - game->camera, game->player2->rect.y, game->player2->rect.w, game->player2->rect.h});
 
+    
+    SDLib::getInstance().getRenderer()->setDrawColor(255, 255, 255, 255);
+    SDL_Rect left = {game->player1->rect.x - game->camera + game->player1->rect.w / 4, game->player1->rect.y, game->player1->rect.w / 2, game->player1->rect.h / 8};
+    SDL_Rect right = {game->player1->rect.x - game->camera + game->player1->rect.w / 4, game->player1->rect.y + game->player1->rect.h - game->player1->rect.w / 8, game->player1->rect.w / 2, game->player1->rect.h / 8};
+    SDL_Rect rear = {game->player1->rect.x - game->camera, game->player1->rect.y + game->player1->rect.h / 8, game->player1->rect.w / 4, game->player1->rect.h - game->player1->rect.h / 4};
+    SDL_Rect front = {game->player1->rect.x - game->camera + game->player1->rect.w - game->player1->rect.w / 4, game->player1->rect.y + game->player1->rect.h / 8, game->player1->rect.w / 4, game->player1->rect.h - game->player1->rect.h / 4};
+    SDLib::getInstance().getRenderer()->drawSquare(rear);
+    SDLib::getInstance().getRenderer()->setDrawColor(255, 0, 0, 255);
+    SDLib::getInstance().getRenderer()->drawSquare(front);
+    SDLib::getInstance().getRenderer()->setDrawColor(0, 255, 0, 255);
+    SDLib::getInstance().getRenderer()->drawSquare(left);
+    SDLib::getInstance().getRenderer()->setDrawColor(0, 0, 255, 255);
+    SDLib::getInstance().getRenderer()->drawSquare(right);
+
     // //title
     // SDLib::getInstance().getRenderer()->drawText(*font, "Car Race", 180, 50, true);
     SDLib::getInstance().getRenderer()->setDrawColor(0, 0, 0, 0);
